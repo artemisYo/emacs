@@ -71,83 +71,100 @@
  'default nil
  :family "FiraCode Nerd Font Mono")
 
+(defun artemis-meowing-append-end () (interactive)
+       (meow-line 1) (meow-append))
+(defun artemis-meowing-insert-start () (interactive)
+       (meow-line 1) (meow-insert))
+(defun artemis-meowing-line-start () (interactive)
+       (meow-beginning-of-thing ?v))
+(defun artemis-meowing-line-end () (interactive)
+       (meow-end-of-thing ?v))
+(defun artemis-meowing-change-line () (interactive)
+       (meow-line 1) (meow-change))
+(defun artemis-meowing-kill-line () (interactive)
+       (meow-line 1) (meow-kill))
+(defun artemis-meowing-buffer-start () (interactive)
+       (meow-beginning-of-thing ?b))
+(defun artemis-meowing-buffer-end () (interactive)
+       (meow-end-of-thing ?b))
 
-(elpaca which-key
-  (setq which-key-popup-type 'side-window
-	which-key-side-window-location 'bottom
-	which-key-side-window-max-height 0.10)
-  (which-key-mode))
-(elpaca evil
-  (evil-mode 1)
-  (evil-set-leader 'normal (kbd "SPC"))
-  (evil-set-leader 'visual (kbd "SPC"))
-  (evil-define-key 'normal 'global (kbd "a") 'evil-insert)
-  (evil-define-key 'normal 'global (kbd "A") 'evil-insert-line)
-  (evil-define-key 'normal 'global (kbd "t") 'evil-append)
-  (evil-define-key 'normal 'global (kbd "T") 'evil-append-line)
-  (evil-define-key 'motion 'global (kbd "s") 'evil-replace)
-  (evil-define-key 'motion 'global (kbd "S") 'evil-substitute)
-  (evil-define-key 'motion 'global (kbd "h") 'evil-change)
-  (evil-define-key 'motion 'global (kbd "H") 'evil-change-line)
-  
-  (evil-define-key 'motion 'global (kbd "N") 'evil-beginning-of-line)
-  (evil-define-key 'normal 'global (kbd "I") 'evil-end-of-line)
-  (evil-define-key 'visual 'global (kbd "I") 'evil-end-of-line)
-  (evil-define-key 'motion 'global (kbd "n") 'evil-backward-char)
-  (evil-define-key 'motion 'global (kbd "e") 'evil-next-visual-line)
-  (evil-define-key 'normal 'global (kbd "o") 'evil-previous-visual-line)
-  ;; needed because of some default binding in visual mode
-  (evil-define-key 'visual 'global (kbd "o") 'evil-previous-visual-line)
-  (evil-define-key 'normal 'global (kbd "i") 'evil-forward-char)
-  (evil-define-key 'visual 'global (kbd "i") 'evil-forward-char)
-  
-  (evil-define-key 'normal 'global (kbd "<leader>wh") 'evil-window-split)
-  (evil-define-key 'normal 'global (kbd "<leader>wv") 'evil-window-vsplit)
-  (evil-define-key 'normal 'global (kbd "<leader>wq") 'evil-window-delete)
-  (evil-define-key 'normal 'global (kbd "<leader>wo") 'delete-other-windows)
+(elpaca meow
+  (meow-global-mode)
+  (meow-leader-define-key
+   '("/" . meow-comment)
 
-  (evil-define-key 'normal 'global (kbd "<leader>n") 'evil-window-left)
-  (evil-define-key 'normal 'global (kbd "<leader>e") 'evil-window-down)
-  (evil-define-key 'normal 'global (kbd "<leader>o") 'evil-window-up)
-  (evil-define-key 'normal 'global (kbd "<leader>i") 'evil-window-right)
-  (evil-define-key 'motion 'global (kbd "C-e") 'evil-scroll-line-down)
-  (evil-define-key 'motion 'global (kbd "C-o") 'evil-scroll-line-up)
+   '("q" . kill-emacs)
+   '("w" . save-buffer)
 
-  (evil-define-key 'normal 'global (kbd "/") 'swiper)
-  (evil-define-key 'normal 'global (kbd "<leader>s") 'swiper)
-  (evil-define-key 'normal 'global (kbd "j") 'evil-avy-goto-word-1)
+   '("a" . meow-expand-1)
+   '("s" . meow-expand-2)
+   '("h" . meow-expand-3)
+   '("t" . meow-expand-4)
+   '("y" . meow-expand-5)
+   '("n" . meow-expand-6)
+   '("e" . meow-expand-7)
+   '("o" . meow-expand-8)
+   '("i" . meow-expand-9)
 
-  (evil-define-key 'normal 'global (kbd "<leader>/") 'comment-line)
-  (evil-define-key 'visual 'global (kbd "<leader>/") 'comment-line)
-  (evil-define-key 'normal 'global (kbd "<leader>uc") 'insert-char)
+   '("f" . find-file)
+   '("b" switch-to-buffer)
+   '("ln" . flycheck-next-error)
+   '("le" . flycheck-list-error)
+   '("lr" . eglot-rename)
+   '("lf" . eglot-format)
+   '("lc" . eglot-code-actions)
+   '("ld" . xref-find-definitions)
+   )
+  (meow-define-keys
+   'normal
+   '("1" . meow-expand-1)
+   '("2" . meow-expand-2)
+   '("3" . meow-expand-3)
+   '("4" . meow-expand-4)
+   '("5" . meow-expand-5)
+   '("6" . meow-expand-6)
+   '("7" . meow-expand-7)
+   '("8" . meow-expand-8)
+   '("9" . meow-expand-9)
+   '("0" . meow-expand-0)
+   
+   '("n" . meow-left)
+   '("i" . meow-right)
+   '("e" . meow-next)
+   '("o" . meow-prev)
+   '("N" . artemis-meowing-line-start)
+   '("I" . artemis-meowing-line-end)
+   '("E" . meow-next-word)
+   '("O" . meow-back-word)
+   '("g" . artemis-meowing-buffer-start)
+   '("G" . artemis-meowing-buffer-end)
+   '(":" . meow-goto-line)
+   '(";" . swiper)
 
-  (evil-define-key 'normal 'global (kbd "<leader>f") 'find-file)
-  (evil-define-key 'normal 'global (kbd "ff") 'find-file)
+   '("l" . meow-line)
+   '("," . meow-beginning-of-thing)
+   '("." . meow-end-of-thing)
+   '("/" . meow-cancel)
 
-  (evil-define-key 'normal 'global (kbd "<leader>cm") 'olivetti-mode)
-  (evil-define-key 'normal 'global (kbd "<leader>cs") 'olivetti-set-width)
-  
-  (evil-define-key 'motion 'global (kbd "<leader>xx") 'eval-defun)
-  (evil-define-key 'motion 'global (kbd "<leader>xs") 'execute-extended-command)
+   '("u" . meow-undo)
+   '("U" . undo-redo)
+   '("<escape>" . meow-keyboard-quit)
 
-  (evil-define-key 'normal 'global (kbd "<leader>bs") 'switch-to-buffer)
-  (evil-define-key 'normal 'global (kbd "<leader>bn") 'evil-next-buffer)
-  (evil-define-key 'normal 'global (kbd "<leader>bb") 'evil-previous-buffer)
-  (evil-define-key 'normal 'global (kbd "<leader>bd") 'evil-delete-buffer)
-
-  ;(evil-define-key 'normal 'global (kbd "<leader>l") 'lsp)
-  (evil-define-key 'normal 'global (kbd "<leader>ln") 'flycheck-next-error)
-  (evil-define-key 'normal 'global (kbd "<leader>le") 'flycheck-list-errors)
-  (evil-define-key 'normal 'global (kbd "<leader>lr") 'eglot-rename)
-  (evil-define-key 'normal 'global (kbd "<leader>lf") 'eglot-format)
-  (evil-define-key 'normal 'global (kbd "<leader>lc") 'eglot-code-actions)
-
-  (evil-define-key 'normal 'global (kbd "<leader>gd") 'xref-find-definitions))
+   '("a" . meow-insert)
+   '("t" . meow-append)
+   '("h" . meow-change)
+   '("s" . meow-kill)
+   '("w" . meow-yank)
+   '("A" . artemis-meowing-insert-start)
+   '("T" . artemis-meowing-append-end)
+   '("H" . artemis-meowing-change-line)
+   '("S" . artemis-meowing-kill-line)
+   )
+  (setq meow-use-cursor-position-hack t)
+  (setq meow-keypad-start-keys (delq (assoc ?h meow-keypad-start-keys) meow-keypad-start-keys)))
 
 (elpaca solaire-mode
   (solaire-global-mode))
-
-(elpaca avy)
 
 (elpaca ivy
   (setq ivy-use-virtual-buffers t
@@ -159,8 +176,6 @@
 (elpaca marginalia
   (marginalia-mode))
 (elpaca swiper)
-
-(elpaca olivetti)
 
 (elpaca flycheck
   (add-hook 'prog-mode-hook 'flycheck-mode))
