@@ -43,6 +43,7 @@
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (setq display-line-numbers-type 'relative)
+(setq ring-bell-function 'ignore)
 
 (set-face-attribute
  'buffer-line-face-active nil
@@ -168,6 +169,7 @@
 (elpaca rustic
   (setq rustic-lsp-client 'eglot))
 (elpaca zig-mode)
+(setq-default c-basic-offset 4)
 
 (elpaca ligature
   (ligature-set-ligatures 't '("www"))
